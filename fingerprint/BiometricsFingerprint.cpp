@@ -479,6 +479,11 @@ Return<bool> BiometricsFingerprint::isUdfps(uint32_t /* sensorId */) {
  */
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t /* x */, uint32_t /* y */,
                                                  float /* minor */, float /* major */) {
+    
+#ifdef ENABLE_UDFPS
+    int arg[2] = {Touch_Fod_Enable, FOD_STATUS_ON};
+    ioctl(touch_fd_.get(), TOUCH_IOC_SETMODE, &arg);
+#endif
 
     return Void();
 }
